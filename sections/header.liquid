@@ -86,32 +86,34 @@
           <span class="icon__fallback-text">{{ 'general.drawers.navigation' | t }}</span>
         </button>
       </div>
-      <div class="grid__item small--one-half medium-up--two-thirds small--text-center">
+      <div class="grid__item small--one-third medium-up--one-sixth small--text-center">
+        {% if section.settings.logo != blank %}
+          {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
+          <a href="/" itemprop="url" class="site-header__logo-link">
+            <img src="{{ section.settings.logo | img_url: image_size }}"
+                 srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
+                 alt="{{ section.settings.logo.alt | default: shop.name }}"
+                 itemprop="logo">
+          </a>
+        {% endif %}
+      </div>
+      <div class="grid__item small--one-third medium-up--one-third small--text-left">
         {% if template.name == 'index' %}
           <h1 class="site-header__logo" itemscope itemtype="http://schema.org/Organization">
         {% else %}
           <div class="site-header__logo h1" itemscope itemtype="http://schema.org/Organization">
         {% endif %}
-          {% if section.settings.logo != blank %}
-            {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
-            <a href="/" itemprop="url" class="site-header__logo-link">
-              <img src="{{ section.settings.logo | img_url: image_size }}"
-                   srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
-                   alt="{{ section.settings.logo.alt | default: shop.name }}"
-                   itemprop="logo">
-            </a>
-          {% else %}
             {% assign shop_name_length = shop.name.size %}
             <a href="/" itemprop="url" {% if shop_name_length > 10 %} class="site-header__shop-name--small"{% endif %}>{{ shop.name }}</a>
-          {% endif %}
+            <a href="/" itemprop="url" class="site-header__description">Outdoor Gear for Enthusiasts</a>
         {% if template.name == 'index' %}
           </h1>
         {% else %}
           </div>
         {% endif %}
       </div>
-
-      <div class="grid__item small--one-quarter medium-up--one-third text-right">
+	  
+      <div class="grid__item small--one-third medium-up--two-thirds text-right">
         <div id="SiteNavSearchCart">
           <form action="/search" method="get" class="site-header__search small--hide" role="search">
             {% comment %}<input type="hidden" name="type" value="product">{% endcomment %}
@@ -132,6 +134,26 @@
             <span class="site-header__cart-indicator {% if cart.item_count > -1 %}hide{% endif %}"></span>
           </a>
         </div>
+        <div class="site-header__secure-logos">
+          {% unless shop.enabled_payment_types == empty %} 
+            {% assign payment_icons_available = 'shopify-logo,amazon_payments,american_express,apple_pay,bitcoin,cirrus,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,jcb,litecoin,maestro,master,paypal,visa' | split: ',' %}
+          <h5 class="guarantee">Guranteed <span class="emphasis">SAFE</span> Checkout</h5>
+            <ul class="list--inline payment-icons">
+
+              {% for type in shop.enabled_payment_types %}
+                {% if payment_icons_available contains type %}
+                  <li>
+                    {% assign icon_name = type | prepend: 'icon-' %}
+                    {% include icon_name %}
+                    <span class="icon__fallback-text">{{type | replace: '_',' '}}</span>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% endunless %}
+
+        </div>
+
       </div>
     </div>
   </div>

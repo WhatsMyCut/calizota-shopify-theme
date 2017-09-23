@@ -9,7 +9,7 @@
 {% assign = discount_code = '?discount=' %}{{product.metafields.global.discount}}
 {% endif %}
 
-<a href="{{site.url}}/cart/{{ product.variants.first.id }}:1{{discount_code}}" class="product-card">
+<a href="{{site.url}}/products/{{ product.variants.first.id }}" class="product-card">
   <div class="product-card__image-wrapper">
     <img src="{{ product.featured_image.src | img_url: '480x480' }}" alt="{{ product.featured_image.alt | escape }}" class="product-card__image">
   </div>
@@ -70,6 +70,6 @@
   <div class="product-card__overlay">
     {% assign view_string_length = 'products.product.view' | t | size %}
     <!-- span class="btn product-card__overlay-btn {% if view_string_length > 8 %} btn--narrow{% endif %}">{{ 'products.product.view' | t }}</span -->
-    <span class="btn product-card__overlay-btn {% if view_string_length > 8 %} btn--narrow{% endif %}"><b>Want!</b></span>
+    <span class="btn product-card__overlay-btn {% if view_string_length > 8 %} btn--narrow{% endif %}"><b>See It</b></span>
   </div>
 </a>
