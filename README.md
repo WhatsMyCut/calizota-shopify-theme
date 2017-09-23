@@ -1,0 +1,1 @@
+# calizota-shopify-theme
